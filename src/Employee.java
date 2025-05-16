@@ -1,16 +1,15 @@
-public class Employee {
-    private int id = 1;
-    private String name;
-    private float salary;
-    private int state;
+import java.util.Objects;
 
-    public Employee(String name, float salary, int state) {
+public class Employee {
+    private String name;
+    private double salary;
+    private int state;
+    private int id = 0;
+
+    public Employee(String name, double salary, int state, int id) {
         this.name = name;
         this.salary = salary;
         this.state = state;
-    }
-
-    public void setId(int id) {
         this.id = id;
     }
 
@@ -18,7 +17,7 @@ public class Employee {
         return name;
     }
 
-    public float getSalary() {
+    public double getSalary() {
         return salary;
     }
 
@@ -30,7 +29,7 @@ public class Employee {
         this.name = name;
     }
 
-    public void setSalary(float salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 
@@ -38,8 +37,23 @@ public class Employee {
         this.state = state;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
-    public String toString() {
-        return ("№: " + id + ". Имя сотрудника: " + name + ". Зарплата: " + salary + ". Отдел: " + state + ".");
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return Double.compare(salary, employee.salary) == 0 && state == employee.state && id == employee.id && Objects.equals(name, employee.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, salary, state, id);
     }
 }
