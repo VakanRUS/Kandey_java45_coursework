@@ -1,5 +1,5 @@
 public class EmployeeBook {
-    private Employee[] employees = new Employee[10];
+    Employee[] employees = new Employee[10];
     int idIncrement = 0;
 
     // Добавить работника
@@ -14,37 +14,39 @@ public class EmployeeBook {
 
     // Распечатка пользователей
     public void printAllEmployees() {
-        for (int i = 0; i < employees.length; i++) {
-            Employee employee = employees[i];
-            if (employees[i] != null) {
+        for (Employee employee : employees) {
+            if (employee != null) {
                 System.out.println("Имя сотрудника: " + employee.getName() +
                         ". Зарплата: " + employee.getSalary() +
                         ". Отдел: " + employee.getState() +
                         ".");
+            } else {
+                System.out.println("конец списка");
+                break;
             }
         }
     }
 
     // Рассчитать среднюю зарплату
-    public void getAverageSalary() {
+    public void calculateAverageSalary() {
         double sum = 0;
-        for (int i = 0; i < employees.length; i++) {
-            Employee employee = employees[i];
-            sum += employee.getSalary();
+        for (Employee employee : employees) {
+            if (employee != null) {
+                sum += employee.getSalary();
+            }
         }
         System.out.println("Общая сумма выплат за месяц: " + String.format("%.02f", sum));
     }
 
     // Рассчитать среднюю зарплату по отделу
-    public void getAverageSalaryPerState(int state) {
+    public void calculateAverageSalaryPerState(int state) {
         double sum = 0;
         int count = 0;
-        for (int i = 0; i < employees.length; i++) {
-            Employee employee = employees[i];
-            if (employee.getState() == state) {
+        for (Employee employee : employees) {
+            if (employee != null && employee.getState() == state) {
                 sum += employee.getSalary();
                 count++;
-            }
+            } else break;
         }
         double total = sum / count;
         System.out.println("Средняя зарплата в месяц по отделу: " + state + ": " + String.format("%.02f", total));

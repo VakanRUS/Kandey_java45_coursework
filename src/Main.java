@@ -9,7 +9,9 @@ public class Main {
         employeeBook.addEmployee("Роман", 51200.12, 1);
         employeeBook.addEmployee("Игорь", 59800.52, 2);
         employeeBook.printAllEmployees();
-        System.out.println(employeeBook.getIdIncrement());
+        System.out.println("Всего записей - " + employeeBook.getIdIncrement());
+        employeeBook.calculateAverageSalary();
+        employeeBook.calculateAverageSalaryPerState(1);
 
 
     }
