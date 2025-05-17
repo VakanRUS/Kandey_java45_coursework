@@ -31,17 +31,20 @@ public class EmployeeBook {
     }
 
 
-    // Распечатка сотрудника
+    // Распечатка сотрудников
     public void printAllEmployees() {
         for (Employee employee : employees) {
             if (employee != null) {
                 System.out.println("id сотрудника: " + employee.getId() +
                         ". Имя сотрудника: " + employee.getName() +
-                        ". Зарплата: " + employee.getSalary() +
+                        ". Зарплата: " + String.format("%.02f", employee.getSalary()) +
                         ". Отдел: " + employee.getState() +
                         ".");
-            } else continue;
+            } else {
+                System.out.println("нет данных");
+            }
         }
+        System.out.println();
     }
 
     // Рассчитать среднюю зарплату
@@ -53,6 +56,7 @@ public class EmployeeBook {
             } else continue;
         }
         System.out.println("Общая сумма выплат за месяц: " + String.format("%.02f", sum));
+        System.out.println();
     }
 
     // Рассчитать среднюю зарплату
@@ -67,6 +71,7 @@ public class EmployeeBook {
         }
         double total = sum / count;
         System.out.println("Средняя зарплата в месяц: " + String.format("%.02f", total));
+        System.out.println();
     }
 
     // Найти сотрудника с наименьшей зарплатой
@@ -89,6 +94,7 @@ public class EmployeeBook {
         System.out.print(String.format("%.02f", minSalaryEmployee.getSalary()));
         System.out.print(". Отдел: ");
         System.out.println(minSalaryEmployee.getState());
+        System.out.println();
     }
 
     // Найти сотрудника с наибольшей зарплатой
@@ -96,13 +102,13 @@ public class EmployeeBook {
         double max = 0;
         Employee maxSalaryEmployee = new Employee("", 0, 0, 0);
         for (int i = 0; i < employees.length; i++) {
-            Employee employee = employees[i];
+            employee = employees[i];
             if (employees[i] != null && employee.getSalary() > max) {
                 max = employee.getSalary();
                 maxSalaryEmployee = employee;
             } else continue;
         }
-        System.out.println("Сотрудник с минимальной зарплатой:");
+        System.out.println("Сотрудник с максимальной зарплатой:");
         System.out.print("id сотрудника: ");
         System.out.print(maxSalaryEmployee.getId());
         System.out.print(". Имя: ");
@@ -111,6 +117,7 @@ public class EmployeeBook {
         System.out.print(String.format("%.02f", maxSalaryEmployee.getSalary()));
         System.out.print(". Отдел: ");
         System.out.println(maxSalaryEmployee.getState());
+        System.out.println();
     }
 
     // Распечатка только имён всех сотрудников
@@ -120,15 +127,19 @@ public class EmployeeBook {
                 System.out.print(employee.getName() + ". ");
             } else continue;
         }
+        System.out.println();
+        System.out.println();
     }
 
     // индексирование зарплаты всем сотрудникам
-//    public void indexSalary() {
-//        double index;
-//        for (int i = 0; i < employees.length; i++) {
-//            if
-//        }
-//    }
+    public double indexSalary(double percent) {
+        for (int i = 0; i < employees.length; i++) {
+            double index = 0;
+            index = employees[i].getSalary() + (employees[i].getSalary() * percent/100);
+            employees[i].setSalary(index);
+        }
+        return percent;
+    }
 
     public int getIdTemp() {
         return idTemp;
