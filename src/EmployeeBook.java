@@ -3,7 +3,6 @@ import java.util.Arrays;
 public class EmployeeBook {
     private Employee[] employees = new Employee[10];
     int idTemp = 0;
-    Employee employee;
 
     // проверка архива на свободное место
     public boolean isArrayFull(boolean check) {
@@ -19,7 +18,6 @@ public class EmployeeBook {
         return check; // возвращаем результат проверки
     }
 
-
     // Добавить сотрудника
     public void addEmployee(String name, double salary, int state) {
         if (isArrayFull(true)) { // Проверяем, полный ли массив, и если да, то
@@ -29,7 +27,6 @@ public class EmployeeBook {
             employees[idTemp] = newEmployee;
         }
     }
-
 
     // Распечатка сотрудников
     public void printAllEmployees() {
@@ -59,19 +56,29 @@ public class EmployeeBook {
         System.out.println();
     }
 
-    // Рассчитать среднюю зарплату
-    public void calculateAverageSalary() {
+    // Рассчитать среднюю зарплату с учётом отдела (0 - не учитывать отдел)
+    public void calculateAverageSalary(int state) {
         double sum = 0;
         int count = 0;
         for (Employee employee : employees) {
-            if (employee != null) {
+            if (employee != null && state == 0) {
                 sum += employee.getSalary();
                 count++;
+            } else if (employee != null && state != 0) {
+                if (state == employee.getState()) {
+                    sum += employee.getSalary();
+                    count++;
+                }
             } else continue;
         }
         double total = sum / count;
-        System.out.println("Средняя зарплата в месяц: " + String.format("%.02f", total));
-        System.out.println();
+        if (state == 0) {
+            System.out.println("Средняя зарплата в месяц: " + String.format("%.02f", total));
+            System.out.println();
+        } else {
+            System.out.println("Средняя зарплата в месяц в отделе №:" + state + " составляет: " + String.format("%.02f", total));
+            System.out.println();
+        }
     }
 
     // Найти сотрудника с наименьшей зарплатой
@@ -102,7 +109,7 @@ public class EmployeeBook {
         double max = 0;
         Employee maxSalaryEmployee = new Employee("", 0, 0, 0);
         for (int i = 0; i < employees.length; i++) {
-            employee = employees[i];
+            Employee employee = employees[i];
             if (employees[i] != null && employee.getSalary() > max) {
                 max = employee.getSalary();
                 maxSalaryEmployee = employee;
@@ -120,6 +127,24 @@ public class EmployeeBook {
         System.out.println();
     }
 
+    // индексирование зарплаты сотрудникам на указанный процент в зависимости от отдела
+    public void indexSalary(double percent, int state) {
+        for (int i = 0; i < employees.length; i++) {
+            Employee employee = employees[i];
+            if (state == 0) {
+                double index = 0;
+                index = employee.getSalary() + (employee.getSalary() * percent / 100);
+                employees[i].setSalary(index);
+            } else {
+                if (state == employee.getState()) {
+                    double index = 0;
+                    index = employee.getSalary() + (employee.getSalary() * percent / 100);
+                    employees[i].setSalary(index);
+                }
+            }
+        }
+    }
+
     // Распечатка только имён всех сотрудников
     public void printNamesOfAllEmployees() {
         for (Employee employee : employees) {
@@ -129,16 +154,6 @@ public class EmployeeBook {
         }
         System.out.println();
         System.out.println();
-    }
-
-    // индексирование зарплаты всем сотрудникам
-    public double indexSalary(double percent) {
-        for (int i = 0; i < employees.length; i++) {
-            double index = 0;
-            index = employees[i].getSalary() + (employees[i].getSalary() * percent/100);
-            employees[i].setSalary(index);
-        }
-        return percent;
     }
 
     public int getIdTemp() {
