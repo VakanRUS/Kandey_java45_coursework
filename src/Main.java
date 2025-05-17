@@ -24,7 +24,7 @@ public class Main {
         employeeBook.indexSalary(15, 2); // индексация зарплаты на задаваемый процент с учётом отдела (0 - не учитывать отдел)
         employeeBook.calculateAverageSalary(1); // Расчет средней зарплаты с учётом отдела (0 - не учитывать отдел)
         employeeBook.removeEmployee(1);
+        employeeBook.addEmployee("Светлана", 152800.12, 5);
         employeeBook.printAllEmployees(); //проверка, что индексация произошла
-
     }
 }
