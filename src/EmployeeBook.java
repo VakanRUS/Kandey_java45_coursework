@@ -1,21 +1,19 @@
-import java.util.Arrays;
-
 public class EmployeeBook {
     private Employee[] employees = new Employee[10];
     int idTemp = 0;
 
     // проверка архива на свободное место
     public boolean isArrayFull(boolean check) {
-        for (int i = 0; i < employees.length; i++) { // задаем цикл по длине массива для проверки, осталось ли пустое место в массиве
-            if (employees[i] == null) { // если проверка показала, что массив в этой ячейке пуст
-                check = false; // присваиваем значение "Не верно" (массив НЕ полный)
-                idTemp = i; // сохраняем временную переменную
-                break; //прекращаем выполнение цикла, поскольку уже ясно, что массив не пустой
-            } else { // иначе
-                check = true; // присваиваем значение "Верно" (ДА, массив полный)
+        for (int i = 0; i < employees.length; i++) {    // задаем цикл по длине массива для проверки, осталось ли пустое место в массиве
+            if (employees[i] == null) {                 // если проверка показала, что массив в этой ячейке пуст
+                check = false;                          // присваиваем значение "Не верно" (массив НЕ полный)
+                idTemp = i;                             // сохраняем временную переменную
+                break;                                  //прекращаем выполнение цикла, поскольку уже ясно, что массив не пустой
+            } else {                                    // иначе
+                check = true;                           // присваиваем значение "Верно" (ДА, массив полный)
             }
         }
-        return check; // возвращаем результат проверки
+        return check;                                   // возвращаем результат проверки
     }
 
     // Добавить сотрудника
@@ -25,6 +23,21 @@ public class EmployeeBook {
         } else {
             Employee newEmployee = new Employee(name, salary, state, idTemp); // , если же он не полон, заносим в него данные полученные на входе, плюс в качестве id поставляем число из временной переменной
             employees[idTemp] = newEmployee;
+        }
+    }
+
+    // Удалить сотрудника
+    public void removeEmployee(int id) {
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] == null) {
+                if (i == id) {
+                    System.out.println("Сотрудник с id №" + id + " не существует.");
+                }
+            } else if (i == id) {
+                System.out.println("Сотрудник с id №" + id + " удалён.");
+                System.out.println();
+                employees[i] = null;
+            }
         }
     }
 

@@ -22,9 +22,9 @@ public class Main {
         employeeBook.addEmployee("Test", 0, 1);// попытка добавить нового сотрудника в полный массив
         System.out.println("В массиве нет места, это верно? - " + employeeBook.isArrayFull(true)); // тестовая распечатка результата проверки полный ли массив
         employeeBook.indexSalary(15, 2); // индексация зарплаты на задаваемый процент с учётом отдела (0 - не учитывать отдел)
-        employeeBook.printAllEmployees(); //проверка, что индексация произошла
         employeeBook.calculateAverageSalary(1); // Расчет средней зарплаты с учётом отдела (0 - не учитывать отдел)
-
+        employeeBook.removeEmployee(1);
+        employeeBook.printAllEmployees(); //проверка, что индексация произошла
 
     }
 }
