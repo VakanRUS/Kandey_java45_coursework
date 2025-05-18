@@ -29,6 +29,7 @@ public class Main {
         employeeBook.removeEmployee(1);
         employeeBook.printNamesOfAllEmployees();
         employeeBook.findMoreOrLessSalary(59100.51); // сортировка сотрудников с меньше и большей зарплатами относительно полученного числа
-
+        employeeBook.printAllEmployees();
+        employeeBook.addEmployee("Светлана", 152800.12, 5);
     }
 }
