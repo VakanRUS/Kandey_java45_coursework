@@ -102,165 +102,216 @@ public class EmployeeBook {
         System.out.println();
     }
 
-    // Рассчитать среднюю зарплату
-    public void calculateTotalPayments() {
+    // Рассчитать общую сумму затрат за зарплату с учётом отдела (0 - не учитывать отдел)
+    public void calculateTotalPayments(int state) {
         double sum = 0;
-        for (Employee employee : employees) {
-            if (employee != null) {
-                sum += employee.getSalary();
-            } else continue;
-        }
-        System.out.println("Общая сумма выплат за месяц: " + String.format("%.02f", sum));
-        System.out.println();
-    }
-
-    // Рассчитать среднюю зарплату с учётом отдела (0 - не учитывать отдел)
-    public void calculateAverageSalary(int state) {
-        double sum = 0;
-        int count = 0;
-        for (Employee employee : employees) {
-            if (employee != null && state == 0) {
-                sum += employee.getSalary();
-                count++;
-            } else if (employee != null && state != 0) {
-                if (state == employee.getState()) {
-                    sum += employee.getSalary();
-                    count++;
-                }
-            } else continue;
-        }
-        double total = sum / count;
-        if (state == 0) {
-            System.out.println("Средняя зарплата в месяц: " + String.format("%.02f", total));
-            System.out.println();
-        } else {
-            System.out.println("Средняя зарплата в месяц в отделе №" + state + " составляет: " + String.format("%.02f", total));
-            System.out.println();
-        }
-    }
-
-    // Найти сотрудника с наименьшей зарплатой
-    public void findMinSalary() {
-        double min = 9999999;
-        Employee minSalaryEmployee = new Employee("", 0, 0, 0);
-        for (int i = 0; i < employees.length; i++) {
-            Employee employee = employees[i];
-            if (employees[i] != null && employee.getSalary() < min) {
-                min = employee.getSalary();
-                minSalaryEmployee = employee;
-            } else continue;
-        }
-        System.out.println("Сотрудник с минимальной зарплатой:");
-        System.out.print("id сотрудника: ");
-        System.out.print(minSalaryEmployee.getId());
-        System.out.print(". Имя: ");
-        System.out.print(minSalaryEmployee.getName());
-        System.out.print(". Зарплата: ");
-        System.out.print(String.format("%.02f", minSalaryEmployee.getSalary()));
-        System.out.print(". Отдел: ");
-        System.out.println(minSalaryEmployee.getState());
-        System.out.println();
-    }
-
-    // Найти сотрудника с наибольшей зарплатой
-    public void findMaxSalary() {
-        double max = 0;
-        Employee maxSalaryEmployee = new Employee("", 0, 0, 0);
-        for (int i = 0; i < employees.length; i++) {
-            Employee employee = employees[i];
-            if (employees[i] != null && employee.getSalary() > max) {
-                max = employee.getSalary();
-                maxSalaryEmployee = employee;
-            } else continue;
-        }
-        System.out.println("Сотрудник с максимальной зарплатой:");
-        System.out.print("id сотрудника: ");
-        System.out.print(maxSalaryEmployee.getId());
-        System.out.print(". Имя: ");
-        System.out.print(maxSalaryEmployee.getName());
-        System.out.print(". Зарплата: ");
-        System.out.print(String.format("%.02f", maxSalaryEmployee.getSalary()));
-        System.out.print(". Отдел: ");
-        System.out.println(maxSalaryEmployee.getState());
-        System.out.println();
-    }
-
-    // индексирование зарплаты сотрудникам на указанный процент в зависимости от отдела
-    public void indexSalary(int percent, int state) {
         for (int i = 0; i < employees.length; i++) {                                                                    // по циклу начинаем индексацию отдела
             Employee employee = employees[i];                                                                           // задаем временную переменную
             if (employees[i] == null) {                                                                                 // проверяем не пустой ли массив на этой итерации
                 continue;                                                                                               // если да, просто переходим к следующей итерации
             } else {                                                                                                    // если нет
                 if (state == 0) {                                                                                       // проверяем, если 0, значит просто рассчитываем индексацию для всех отделов
-                    double index = 0;
-                    index = employee.getSalary() + (employee.getSalary() * percent / 100);
-                    employees[i].setSalary(index);
+                    sum += employee.getSalary();
                 } else {                                                                                                // иначе рассчитываем индексацию только для указанного отдела
                     if (state == employee.getState()) {
-                        double index = 0;
-                        index = employee.getSalary() + (employee.getSalary() * percent / 100);
-                        employees[i].setSalary(index);
+                        sum += employee.getSalary();
                     }
                 }
             }
         }
-        System.out.println("Произведена индексация зарплат на " + percent + "% всем сотрудникам отдела №" + state);     // пишем отчет о проделанной работе
-        System.out.println();
-    }
-
-    // Распечатка только имён всех сотрудников
-    public void printNamesOfAllEmployees() {
-        System.out.println("Имена сотрудников:");
-        for (Employee employee : employees) {
-            if (employee != null) {
-                System.out.println(employee.getName() + ". ");
-            } else continue;
+        if (state == 0) {
+            System.out.println("Общая сумма выплат за месяц: " + String.format("%.02f", sum));
+            System.out.println();
+        } else {
+            System.out.println("Общая сумма выплат по отделу №" + state + " за месяц: " + String.format("%.02f", sum));
+            System.out.println();
         }
-        System.out.println();
     }
 
-    public void findMoreOrLessSalary(double digit) {
-        Employee[] lessSalary = new Employee[employees.length];                                                         // создаем два временных массива для сортировки
-        Employee[] moreSalary = new Employee[employees.length];
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] == null) {
-                continue;
+        // Рассчитать среднюю зарплату с учётом отдела (0 - не учитывать отдел)
+        public void calculateAverageSalary ( int state){
+            double sum = 0;
+            int count = 0;
+            for (Employee employee : employees) {
+                if (employee != null && state == 0) {
+                    sum += employee.getSalary();
+                    count++;
+                } else if (employee != null && state != 0) {
+                    if (state == employee.getState()) {
+                        sum += employee.getSalary();
+                        count++;
+                    }
+                } else continue;
+            }
+            double total = sum / count;
+            if (state == 0) {
+                System.out.println("Средняя зарплата в месяц: " + String.format("%.02f", total));
+                System.out.println();
             } else {
-                if (employees[i].getSalary() < digit) {                                                                 // если зарплата ниже, чем указанное число
-                    lessSalary[i] = employees[i];                                                                       // записываем данные в массив с низкими зарплатами
-                } else {                                                                                                // иначе
-                    moreSalary[i] = employees[i];                                                                       // записываем данные в массив с высокими зарплатами
+                System.out.println("Средняя зарплата в месяц в отделе №" + state + " составляет: " + String.format("%.02f", total));
+                System.out.println();
+            }
+        }
+
+        // Найти сотрудника с наименьшей зарплатой
+        public void findMinSalary ( int state){
+            double min = 9999999;
+            Employee minSalaryEmployee = new Employee("", 0, 0, 0);
+            for (int i = 0; i < employees.length; i++) {                                                                    // по циклу начинаем индексацию отдела
+                Employee employee = employees[i];                                                                           // задаем временную переменную
+                if (employees[i] == null) {                                                                                 // проверяем не пустой ли массив на этой итерации
+                    continue;                                                                                               // если да, просто переходим к следующей итерации
+                } else {                                                                                                    // если нет
+                    if (state == 0 && employee.getSalary() < min) {                                                                                       // проверяем, если 0, значит просто рассчитываем индексацию для всех отделов
+                        min = employee.getSalary();
+                        minSalaryEmployee = employee;
+                    } else {                                                                                                // иначе рассчитываем индексацию только для указанного отдела
+                        if (state == employee.getState() && employee.getSalary() < min) {
+                            min = employee.getSalary();
+                            minSalaryEmployee = employee;
+                        }
+                    }
+                }
+                employees[i].setSalary(min);
+            }
+            if (state == 0) {
+                System.out.println("Сотрудник с минимальной зарплатой среди всех отделов:");
+            } else {
+                System.out.println("Сотрудник из отдела №:" + state + " с минимальной зарплатой:");
+            }
+            System.out.print("id сотрудника: ");
+            System.out.print(minSalaryEmployee.getId());
+            System.out.print(". Имя: ");
+            System.out.print(minSalaryEmployee.getName());
+            System.out.print(". Зарплата: ");
+            System.out.print(String.format("%.02f", minSalaryEmployee.getSalary()));
+            System.out.print(". Отдел: ");
+            System.out.println(minSalaryEmployee.getState());
+            System.out.println();
+
+        }
+
+        // Найти сотрудника с наибольшей зарплатой
+        public void findMaxSalary ( int state){
+            double max = 0;
+            Employee maxSalaryEmployee = new Employee("", 0, 0, 0);
+            for (int i = 0; i < employees.length; i++) {                                                                    // по циклу начинаем индексацию отдела
+                Employee employee = employees[i];                                                                           // задаем временную переменную
+                if (employees[i] == null) {                                                                                 // проверяем не пустой ли массив на этой итерации
+                    continue;                                                                                               // если да, просто переходим к следующей итерации
+                } else {                                                                                                    // если нет
+                    if (state == 0 && employee.getSalary() > max) {                                                                                       // проверяем, если 0, значит просто рассчитываем индексацию для всех отделов
+                        max = employee.getSalary();
+                        maxSalaryEmployee = employee;
+                    } else {                                                                                                // иначе рассчитываем индексацию только для указанного отдела
+                        if (state == employee.getState() && employee.getSalary() > max) {
+                            max = employee.getSalary();
+                            maxSalaryEmployee = employee;
+                        }
+                    }
+                }
+                employees[i].setSalary(max);
+            }
+
+//        for (int i = 0; i < employees.length; i++) {
+//            Employee employee = employees[i];
+//            if (employees[i] != null && employee.getSalary() > max) {
+//                max = employee.getSalary();
+//                maxSalaryEmployee = employee;
+//            } else continue;
+//        }
+            if (state == 0) {
+                System.out.println("Сотрудник с максимальной зарплатой среди всех отделов:");
+            } else {
+                System.out.println("Сотрудник из отдела №:" + state + " с максимальной зарплатой:");
+            }
+            System.out.print("id сотрудника: ");
+            System.out.print(maxSalaryEmployee.getId());
+            System.out.print(". Имя: ");
+            System.out.print(maxSalaryEmployee.getName());
+            System.out.print(". Зарплата: ");
+            System.out.print(String.format("%.02f", maxSalaryEmployee.getSalary()));
+            System.out.print(". Отдел: ");
+            System.out.println(maxSalaryEmployee.getState());
+            System.out.println();
+        }
+
+        // индексирование зарплаты сотрудникам на указанный процент в зависимости от отдела
+        public void indexSalary ( int percent, int state){
+            for (int i = 0; i < employees.length; i++) {                                                                    // по циклу начинаем индексацию отдела
+                Employee employee = employees[i];                                                                           // задаем временную переменную
+                if (employees[i] == null) {                                                                                 // проверяем не пустой ли массив на этой итерации
+                    continue;                                                                                               // если да, просто переходим к следующей итерации
+                } else {                                                                                                    // если нет
+                    if (state == 0) {                                                                                       // проверяем, если 0, значит просто рассчитываем индексацию для всех отделов
+                        double index = 0;
+                        index = employee.getSalary() + (employee.getSalary() * percent / 100);
+                        employees[i].setSalary(index);
+                    } else {                                                                                                // иначе рассчитываем индексацию только для указанного отдела
+                        if (state == employee.getState()) {
+                            double index = 0;
+                            index = employee.getSalary() + (employee.getSalary() * percent / 100);
+                            employees[i].setSalary(index);
+                        }
+                    }
                 }
             }
+            System.out.println("Произведена индексация зарплат на " + percent + "% всем сотрудникам отдела №" + state);     // пишем отчет о проделанной работе
+            System.out.println();
         }
-        System.out.println("Получено число: " + digit);
-        System.out.println();
-        System.out.println("Сотрудники с зарплатой ниже указанного числа:");
-        for (int i = 0; i < lessSalary.length; i++) {                                                                   // через цикл выводим данные людей с зарплатой ниже указанного числа
-            if (lessSalary[i] == null) {                                                                                // не забывая пропускать пустые ячейки
-                continue;
-            } else {
-                System.out.println("id№" + lessSalary[i].getId() +
-                        ". " + lessSalary[i].getName() +
-                        ". Зарплата: " + String.format("%.02f", lessSalary[i].getSalary()));
-            }
-        }
-        System.out.println();
-        System.out.println("Сотрудники с зарплатой равной, либо выше указанного числа:");
-        for (int i = 0; i < moreSalary.length; i++) {                                                                   // то же самое проделываем для людей с зарплатой равной или выше указанного числа
-            if (moreSalary[i] == null) {
-                continue;
-            } else {
-                System.out.println("id№" + moreSalary[i].getId() +
-                        ". " + moreSalary[i].getName() +
-                        ". Зарплата: " + String.format("%.02f", moreSalary[i].getSalary()));
-            }
-        }
-        System.out.println();
-    }
 
-    public int getIdTemp() {
-        return idTemp;
+        // Распечатка только имён всех сотрудников
+        public void printNamesOfAllEmployees () {
+            System.out.println("Имена сотрудников:");
+            for (Employee employee : employees) {
+                if (employee != null) {
+                    System.out.println(employee.getName() + ". ");
+                } else continue;
+            }
+            System.out.println();
+        }
+
+        public void findMoreOrLessSalary ( double digit){
+            Employee[] lessSalary = new Employee[employees.length];                                                         // создаем два временных массива для сортировки
+            Employee[] moreSalary = new Employee[employees.length];
+            for (int i = 0; i < employees.length; i++) {
+                if (employees[i] == null) {
+                    continue;
+                } else {
+                    if (employees[i].getSalary() < digit) {                                                                 // если зарплата ниже, чем указанное число
+                        lessSalary[i] = employees[i];                                                                       // записываем данные в массив с низкими зарплатами
+                    } else {                                                                                                // иначе
+                        moreSalary[i] = employees[i];                                                                       // записываем данные в массив с высокими зарплатами
+                    }
+                }
+            }
+            System.out.println("Получено число: " + digit);
+            System.out.println();
+            System.out.println("Сотрудники с зарплатой ниже указанного числа:");
+            for (int i = 0; i < lessSalary.length; i++) {                                                                   // через цикл выводим данные людей с зарплатой ниже указанного числа
+                if (lessSalary[i] == null) {                                                                                // не забывая пропускать пустые ячейки
+                    continue;
+                } else {
+                    System.out.println("id№" + lessSalary[i].getId() +
+                            ". " + lessSalary[i].getName() +
+                            ". Зарплата: " + String.format("%.02f", lessSalary[i].getSalary()));
+                }
+            }
+            System.out.println();
+            System.out.println("Сотрудники с зарплатой равной, либо выше указанного числа:");
+            for (int i = 0; i < moreSalary.length; i++) {                                                                   // то же самое проделываем для людей с зарплатой равной или выше указанного числа
+                if (moreSalary[i] == null) {
+                    continue;
+                } else {
+                    System.out.println("id№" + moreSalary[i].getId() +
+                            ". " + moreSalary[i].getName() +
+                            ". Зарплата: " + String.format("%.02f", moreSalary[i].getSalary()));
+                }
+            }
+            System.out.println();
+        }
+
+        public int getIdTemp () {
+            return idTemp;
+        }
     }
-}
