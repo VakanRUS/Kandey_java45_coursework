@@ -33,8 +33,7 @@ public class EmployeeBook {
                     check = false;                                                                                      // сохраняем состояние проверочной переменной
                 } else {                                                                                                // иначе
                     if (employees[i].getName().equals(name) &&
-                            employees[i].getState() == state &&
-                            employees[i].getSalary() == salary) {                                                       // Проверяем совпадение в имени, отделе и зарплате
+                            employees[i].getState() == state) {                                                         // Проверяем совпадение в имени и отделе, а в зарплате нет, потому что она на тот момент может быть другая
                         check = true;                                                                                   // если всё совпало, изменяем состояние проверочной переменной
                         idOfExistedEmployee = employees[i].getId();                                                     // так же сохраняем id найденного сотрудника
                         break;                                                                                          // и прекращаем выполнение цикла
@@ -44,7 +43,7 @@ public class EmployeeBook {
             // Теперь проверяем, нашлась ли наша запись в массиве при поиске выше
             for (int i = 0; i < employees.length; i++) {                                                                // проверяем по циклу весь массив
                 if (check) {                                                                                            // если наша запись нашлась
-                    System.out.println("Попытка внести сотрудника: " + name + " из отдела №" + state + " не возможна!"); // держим в курсе
+                    System.out.println("Попытка внести сотрудника: " + name + " из отдела №" + state + " не возможна!");// держим в курсе
                     System.out.println("Этот сотрудник уже есть в списке c id " + idOfExistedEmployee);                 // сообщая что такой сотрудник уже есть под указанным идентификатором
                     System.out.println();
                     break;                                                                                              // завершаем выполнение цикла
@@ -62,9 +61,11 @@ public class EmployeeBook {
     // Удалить сотрудника
     public void removeEmployee(int id) {
         for (int i = 0; i < employees.length; i++) {                                                                    // задаем цикл проверки по всему по массиву
-            if (employees[i] == null || id > employees.length || id < 0) {                                              // если ячейка массива в этой итерации пуста или заданный id за пределами массива
+            Employee employee = employees[i];
+            if (id > employees.length || id < 0 || (employee == null && i == id)) {                                     // если ячейка массива в этой итерации пуста или заданный id за пределами массива
                 System.out.println("Сотрудник с id №" + id + " не существует.");
-                continue;                                                                                                  // и прерываем цикл
+                System.out.println();
+                break;                                                                                                  // и прерываем цикл
             } else if (i == id) {                                                                                       // иначе проверяем соответствие номера итерации и полученного на входе числа
                 System.out.println("Сотрудник с id №" + id + " удалён.");                                               // сообщаем, что всё получилось
                 System.out.println();
@@ -78,11 +79,12 @@ public class EmployeeBook {
     public void findEmployeeById(int id) {
         for (int i = 0; i < employees.length; i++) {                                                                    // задаем цикл проверки по всему по массиву
             Employee employee = employees[i];
-            if (employee == null || id > employees.length || id < 0) {                                              // если ячейка массива в этой итерации пуста или заданный id за пределами массива
+            if (id > employees.length || id < 0 || (employee == null && i == id)) {                                     // если ячейка массива в этой итерации пуста или заданный id за пределами массива
                 System.out.println("Сотрудник с id №" + id + " не существует.");                                        // сообщаем об этом
                 System.out.println();
-                continue;                                                                                                  // и прерываем цикл
-            } else if (i == id) {                                                                                       // иначе проверяем соответствие номера итерации и полученного на входе числа
+                break;                                                                                                  // и прерываем цикл
+            }
+            if (employee != null && i == id) {                                                                          // иначе проверяем соответствие номера итерации и полученного на входе числа
                 System.out.print("id сотрудника: ");
                 System.out.print(employee.getId());
                 System.out.print(". Имя: ");
@@ -91,9 +93,9 @@ public class EmployeeBook {
                 System.out.print(String.format("%.02f", employee.getSalary()));
                 System.out.print(". Отдел: ");
                 System.out.println(employee.getState());
-                System.out.println();                                                                                // и очищаем ячейку массива
+                System.out.println();                                                                                   // и очищаем ячейку массива
                 break;                                                                                                  // прерываем цикл
-            }
+            } else continue;
         }
     }
 
@@ -154,10 +156,10 @@ public class EmployeeBook {
         Employee minSalaryEmployee = new Employee("", 0, 0, 0);
         for (int i = 0; i < employees.length; i++) {                                                                    // по циклу начинаем индексацию отдела
             Employee employee = employees[i];                                                                           // задаем временную переменную
-            if (employee == null) {                                                                                 // проверяем не пустой ли массив на этой итерации
+            if (employee == null) {                                                                                     // проверяем не пустой ли массив на этой итерации
                 continue;                                                                                               // если да, просто переходим к следующей итерации
             } else {                                                                                                    // если нет
-                if (state == 0 && employee.getSalary() < min) {                                                                                       // проверяем, если 0, значит просто рассчитываем индексацию для всех отделов
+                if (state == 0 && employee.getSalary() < min) {                                                         // проверяем, если 0, значит просто рассчитываем индексацию для всех отделов
                     min = employee.getSalary();
                     minSalaryEmployee = employee;
                 } else {                                                                                                // иначе рассчитываем индексацию только для указанного отдела
@@ -194,7 +196,7 @@ public class EmployeeBook {
             if (employee == null) {                                                                                 // проверяем не пустой ли массив на этой итерации
                 continue;                                                                                               // если да, просто переходим к следующей итерации
             } else {                                                                                                    // если нет
-                if (state == 0 && employee.getSalary() > max) {                                                                                       // проверяем, если 0, значит просто рассчитываем индексацию для всех отделов
+                if (state == 0 && employee.getSalary() > max) {                                                         // проверяем, если 0, значит просто рассчитываем индексацию для всех отделов
                     max = employee.getSalary();
                     maxSalaryEmployee = employee;
                 } else {                                                                                                // иначе рассчитываем индексацию только для указанного отдела
@@ -244,8 +246,8 @@ public class EmployeeBook {
         System.out.println("Произведена индексация зарплат на " + percent + "% всем сотрудникам отдела №" + state);     // пишем отчет о проделанной работе
         System.out.println();
     }
-    // Распечатка только имён всех сотрудников
 
+    // Распечатка только имён всех сотрудников
     public void printNamesOfAllEmployees() {
         System.out.println("Имена сотрудников:");
         for (Employee employee : employees) {
@@ -256,6 +258,7 @@ public class EmployeeBook {
         System.out.println();
     }
 
+    // Поиск зарплат больше и меньше указанного числа
     public void findMoreOrLessSalary(double digit) {
         Employee[] lessSalary = new Employee[employees.length];                                                         // создаем два временных массива для сортировки
         Employee[] moreSalary = new Employee[employees.length];
@@ -296,7 +299,7 @@ public class EmployeeBook {
         System.out.println();
     }
 
-    // Распечатка сотрудников
+    // Распечатка всех сотрудников
     public void printAllEmployees() {
         for (Employee employee : employees) {                                                                           // пробегаемся по массиву
             if (employee != null) {                                                                                     // проверяем, если ячейка в этой итерации не пуста
@@ -315,7 +318,7 @@ public class EmployeeBook {
     // Распечатка сотрудников определённого отдела, без указания отдела
     public void printStateEmployees(int state) {
         for (Employee employee : employees) {                                                                           // пробегаемся по массиву
-            if (employee != null && employee.getState() == state) {                                                                                     // проверяем, если ячейка в этой итерации не пуста
+            if (employee != null && employee.getState() == state) {                                                     // проверяем, если ячейка в этой итерации не пуста
                 System.out.println("id сотрудника: " + employee.getId() +                                               // то распечатываем данные о сотруднике
                         ". Имя сотрудника: " + employee.getName() +
                         ". Зарплата: " + String.format("%.02f", employee.getSalary()) +
