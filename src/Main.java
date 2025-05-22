@@ -19,17 +19,28 @@ public class Main {
         employeeBook.calculateAverageSalary(1);
         employeeBook.indexSalary(15, 2);
         employeeBook.printStateEmployees(2);
-        employeeBook.findMoreOrLessSalary(59100.51);
         employeeBook.removeEmployee(1);
         employeeBook.removeEmployee(5);
         employeeBook.removeEmployee(5);
         employeeBook.removeEmployee(15);
-        employeeBook.findEmployeeById(4);
-        employeeBook.findEmployeeById(1);
+        employeeBook.addEmployee("Инга", 52700.25, 1);
+        employeeBook.addEmployee("Инга", 52700.25, 1);
+        employeeBook.addEmployee("Ольга", 59100.51, 4);
+        employeeBook.addEmployee("Ольга", 59100.51, 4);
+        employeeBook.removeEmployee(9);
+        employeeBook.findSalaryMoreThenNumber(55000);
+        employeeBook.findSalaryLessThenNumber(55000);
+        employeeBook.findEmployeeById(9);
+        employeeBook.removeEmployee(2);
+        employeeBook.addEmployee("Светлана", 152800.12, 5);
         employeeBook.printAllEmployees();
-        employeeBook.addEmployee("Инга", 52700.25, 1);
-        employeeBook.addEmployee("Инга", 52700.25, 1);
-        employeeBook.addEmployee("Ольга", 59100.51, 4);
-        employeeBook.addEmployee("Ольга", 59100.51, 4);
+
+        Employee find = employeeBook.findEmployeeById(4); // теперь поиск возвращает данные Employee
+        if (find != null){
+            System.out.println("Сотрудник найден");
+            System.out.println(find);
+        } else {
+            System.out.println("Сотрудник не найден");
+        }
     }
 }
