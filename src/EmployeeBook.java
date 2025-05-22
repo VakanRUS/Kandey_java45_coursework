@@ -1,12 +1,11 @@
 public class EmployeeBook {
     private final Employee[] employees = new Employee[10];
-    private int idTemp = 0;
 
     public boolean checkIsArrayFull() {
         boolean check = false;
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) {
-                idTemp = i;
+                Employee.setIdTemp(i);
                 check = false;
                 break;
             } else {
@@ -40,9 +39,9 @@ public class EmployeeBook {
             System.out.println();
         } else {
             for (int i = 0; i < employees.length; i++) {
-                Employee newEmployee = new Employee(name, salary, state, idTemp);
+                Employee newEmployee = new Employee(name, salary, state, Employee.getIdTemp());
                 if (checkExistence(name, state) == -1){
-                    employees[idTemp] = newEmployee;
+                    employees[Employee.getIdTemp()] = newEmployee;
                     System.out.println("Попытка внести сотрудника: " + name + " из отдела №" + state + " успешна!");
                     System.out.println("Сотрудник добавлен!");
                     System.out.println();
@@ -289,7 +288,7 @@ public class EmployeeBook {
     }
 
     public void printAllEmployees() {
-        idTemp = 0;
+        Employee.setIdTemp(0);
         for (Employee employee : employees) {
             if (employee != null) {
                 System.out.println("id сотрудника: " + employee.getId() +
@@ -297,12 +296,12 @@ public class EmployeeBook {
                         ". Зарплата: " + String.format("%.02f", employee.getSalary()) +
                         ". Отдел: " + employee.getState() +
                         ".");
-                idTemp++;
+                Employee.setIdTemp(getIdTemp()+1);
             } else {
                 continue;
             }
         }
-        System.out.println("Всего сотрудников: " + idTemp + " из " + employees.length);
+        System.out.println("Всего сотрудников: " + Employee.getIdTemp() + " из " + employees.length);
         System.out.println();
     }
 
@@ -321,6 +320,6 @@ public class EmployeeBook {
     }
 
     public int getIdTemp() {
-        return idTemp;
+        return Employee.getIdTemp();
     }
 }

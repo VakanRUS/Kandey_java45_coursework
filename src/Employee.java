@@ -1,6 +1,9 @@
 import java.util.Objects;
 
 public class Employee {
+
+    private static int idTemp = 0;
+
     private String name;
     private double salary;
     private int state;
@@ -41,8 +44,12 @@ public class Employee {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public static int getIdTemp() {
+        return idTemp;
+    }
+
+    public static void setIdTemp(int idTemp) {
+        Employee.idTemp = idTemp;
     }
 
     @Override
