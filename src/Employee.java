@@ -3,6 +3,7 @@ import java.util.Objects;
 public class Employee {
 
     private static int idTemp = 0;
+    private static int numberOfElements = 0;
 
     private String name;
     private double salary;
@@ -13,7 +14,15 @@ public class Employee {
         this.name = name;
         this.salary = salary;
         this.state = state;
-        this.id = id;
+        this.id = idTemp++;
+    }
+
+    public static int getNumberOfElements() {
+        return numberOfElements;
+    }
+
+    public static void setNumberOfElements(int numberOfElements) {
+        Employee.numberOfElements = numberOfElements;
     }
 
     public String getName() {
