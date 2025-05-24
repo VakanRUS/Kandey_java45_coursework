@@ -10,7 +10,7 @@ public class Employee {
     private int state;
     private int id = 0;
 
-    public Employee(String name, double salary, int state, int id) {
+    public Employee(String name, double salary, int state) {
         this.name = name;
         this.salary = salary;
         this.state = state;

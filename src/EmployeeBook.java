@@ -33,7 +33,7 @@ public class EmployeeBook {
             System.out.println();
         } else {
             for (int i = 0; i < employees.length; i++) {
-                Employee newEmployee = new Employee(name, salary, state, Employee.getIdTemp());
+                Employee newEmployee = new Employee(name, salary, state);
                 if (checkExistence(name, state) == -1 && employees[i] == null) {
                     Employee.setIdTemp(0);
                     employees[i] = newEmployee;
@@ -43,6 +43,7 @@ public class EmployeeBook {
                     Employee.setNumberOfElements(Employee.getNumberOfElements()+1);
                     break;
                 } else if (checkExistence(name, state) != -1){
+                    Employee.setIdTemp(0);
                     System.out.println("Попытка внести сотрудника: " + name + " из отдела №" + state + " не возможна!");
                     System.out.println("Этот сотрудник уже есть в списке c id " + (checkExistence(name, state)));
                     System.out.println();
@@ -136,7 +137,7 @@ public class EmployeeBook {
 
     public void findMinSalary(int state) {
         double min = 9999999;
-        Employee minSalaryEmployee = new Employee("", 0, 0, 0);
+        Employee minSalaryEmployee = new Employee("", 0, 0);
         for (int i = 0; i < employees.length; i++) {
             Employee employee = employees[i];
             if (employee == null) {
@@ -169,7 +170,7 @@ public class EmployeeBook {
 
     public void findMaxSalary(int state) {
         double max = 0;
-        Employee maxSalaryEmployee = new Employee("", 0, 0, 0);
+        Employee maxSalaryEmployee = new Employee("", 0, 0);
         for (int i = 0; i < employees.length; i++) {
             Employee employee = employees[i];
             if (employee == null) {
