@@ -1,16 +1,28 @@
 import java.util.Objects;
 
 public class Employee {
+
+    private static int idTemp = 0;
+    private static int numberOfElements = 0;
+
     private String name;
     private double salary;
     private int state;
     private int id = 0;
 
-    public Employee(String name, double salary, int state, int id) {
+    public Employee(String name, double salary, int state) {
         this.name = name;
         this.salary = salary;
         this.state = state;
-        this.id = id;
+        this.id = idTemp++;
+    }
+
+    public static int getNumberOfElements() {
+        return numberOfElements;
+    }
+
+    public static void setNumberOfElements(int numberOfElements) {
+        Employee.numberOfElements = numberOfElements;
     }
 
     public String getName() {
@@ -41,8 +53,12 @@ public class Employee {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public static int getIdTemp() {
+        return idTemp;
+    }
+
+    public static void setIdTemp(int idTemp) {
+        Employee.idTemp = idTemp;
     }
 
     @Override
@@ -55,5 +71,10 @@ public class Employee {
     @Override
     public int hashCode() {
         return Objects.hash(name, salary, state, id);
+    }
+
+    @Override
+    public String toString() {
+        return ("id сотрудника: " + this.id + ". Имя сотрудника: " + this.name + ". Зарплата: " + this.salary + ". Отдел: " + this.state);
     }
 }
